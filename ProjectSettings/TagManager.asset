@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - SHIELD
+  - WALL
+  - PLAYER
+  - ENEMY
+  - DEFEATLIMIT
   layers:
   - Default
   - TransparentFX
@@ -13,10 +18,10 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Players
+  - Enemies
+  - Shield
+  - WorldLimits
   - 
   - 
   - 
@@ -38,6 +43,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BACKGROUND
+    uniqueID: 3923265709
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: FOREGROUND
+    uniqueID: 4285424773
+    locked: 0
+  - name: FX
+    uniqueID: 3407287207
+    locked: 0
+  - name: UI
+    uniqueID: 762299877
     locked: 0

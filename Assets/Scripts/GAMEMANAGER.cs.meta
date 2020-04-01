@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 958ff9abd3858f64cbaafb6880b0edc1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - musicMenu: {fileID: 8300000, guid: a62cd46d5f5af12499820bee451c89c6, type: 3}
+  - musicGame: {fileID: 8300000, guid: 6699bab291921a646803d82aef873f5f, type: 3}
+  - musicVictory: {fileID: 8300000, guid: 05ef0fe30ac02a74cab9f904a9ac3a0b, type: 3}
+  - musicGameOver: {fileID: 8300000, guid: 37da5a516b395ce4dbe5e85b156a79be, type: 3}
+  - scoreText: {instanceID: 0}
+  executionOrder: -10
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
