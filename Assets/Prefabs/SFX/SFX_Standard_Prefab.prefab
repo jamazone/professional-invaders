@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd8a5183c783a6c4abf3f2cc12501b55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenShake: 0
 --- !u!1 &4317054151851319301
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +90,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 8b3ecbcb1f626dd4db14d839c4bb46af, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0

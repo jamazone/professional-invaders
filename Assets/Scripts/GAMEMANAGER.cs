@@ -21,10 +21,16 @@ public class GAMEMANAGER : MonoBehaviour
     public AudioClip musicGameOver;
     AudioSource music;
 
+    public Slider musicVolume;
+    public Slider soundVolume;
+
     [Header("INTERFACE")]
     public Text scoreText;
     Transform canvas;
     GameObject gameUI;
+
+    [Header("Game ref")]
+    public GameObject spawner = null;
 
 
     // ---------------------------------------------------------------
@@ -42,11 +48,16 @@ public class GAMEMANAGER : MonoBehaviour
         canvas.gameObject.SetActive(true);
         isPaused = false;
         isPlaying = false;
-
+        if (!musicVolume)
+        musicVolume = GameObject.Find("MusicSlider").GetComponent<Slider>();
+        if (!soundVolume)
+        soundVolume = GameObject.Find("SoundSlider").GetComponent<Slider>();
     }
 
     void Start()
     {
+        musicVolume.value = .5f;
+        soundVolume.value = .5f;
         PlayMusic(musicMenu);
         ShowMenu(canvas.Find("START_MENU"));
     }
@@ -62,6 +73,7 @@ public class GAMEMANAGER : MonoBehaviour
         PlayMusic(musicGame);
         gameUI.SetActive(true);
         HideMenus();
+        spawner.SetActive(true);
 
         foreach (PlayerScript player in players)
         {
@@ -114,19 +126,19 @@ public class GAMEMANAGER : MonoBehaviour
 
         foreach (PlayerScript player in players)
         {
-            if (Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKeyDown(KeyCode.M) && player.shootScript.fireRate != 8)
             {
                 player.shootScript.fireRate = 8;
                 player.shootScript.maxMissilesOnScreen = 2;
-                SoundManager.PlaySound("mathilda");
+                SoundManager.Instance.Play("mathilda");
                 player.SwapMatSprite();
             }
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) && player.shootScript.fireRate != 4)
             {
                 player.shootScript.fireRate = 4;
                 player.shootScript.maxMissilesOnScreen = 1;
-                SoundManager.PlaySound("leon");
-                player.SwapLéonSprite();
+                SoundManager.Instance.Play("leon");
+                player.SwapLeonControllerSprite();
             }
         }
 
@@ -162,7 +174,7 @@ public class GAMEMANAGER : MonoBehaviour
         }
         PlayMusic(musicGameOver);
         ShowMenu(canvas.Find("GAMEOVER_MENU"));
-        SoundManager.PlaySound("dead");
+        SoundManager.Instance.Play("dead");
     }
 
     public void CheckVictory()
@@ -176,7 +188,7 @@ public class GAMEMANAGER : MonoBehaviour
         isPlaying = false;
         PlayMusic(musicGameOver);
         ShowMenu(canvas.Find("VICTORY_MENU"));
-        SoundManager.PlaySound("victory");
+        SoundManager.Instance.Play("victory");
     }
 
 

@@ -12,8 +12,10 @@ public class PlayerScript : MonoBehaviour, IKillable, IStartable
     HealthScript healthScript;
     [HideInInspector] public PlayerMovement moveScript;
     [HideInInspector] public PlayerCanon shootScript;
-    public Sprite Léon;
-    public Sprite Mat;
+
+    private Animator animator;
+    public string LeonControllerPath;
+    public string MatControllerPath;
 
     void Awake()
     {
@@ -22,6 +24,7 @@ public class PlayerScript : MonoBehaviour, IKillable, IStartable
         shootScript = GetComponent<PlayerCanon>();
         spawnPosition = transform.position;
         spawnRotation = transform.rotation;
+        animator = GetComponent<Animator>();
 
         GAMEMANAGER.access.players.Add(this);
     }
@@ -41,14 +44,14 @@ public class PlayerScript : MonoBehaviour, IKillable, IStartable
         healthScript.TakeDamage(healthScript.health);
     }
 
-    public void SwapLéonSprite()
+    public void SwapLeonControllerSprite()
     {
-        gameObject.GetComponent<SpriteRenderer>().sprite = Léon;
+        animator.runtimeAnimatorController = Resources.Load(LeonControllerPath) as RuntimeAnimatorController;
     }
 
     public void SwapMatSprite()
     {
-        gameObject.GetComponent<SpriteRenderer>().sprite = Mat;
+        animator.runtimeAnimatorController = Resources.Load(MatControllerPath) as RuntimeAnimatorController;
     }
 
 
@@ -58,7 +61,9 @@ public class PlayerScript : MonoBehaviour, IKillable, IStartable
         healthScript.vulnerable = false;
         moveScript.canMove = false;
         shootScript.canShoot = false;
+        HealthUI.Instance.UpdateUI(extraLives);
         extraLives -= 1;
+
 
         if (extraLives < 0)
         {

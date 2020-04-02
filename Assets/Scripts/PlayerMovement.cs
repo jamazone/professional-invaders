@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerInput inputScript;
     Rigidbody2D ship;
     float lastUpdateTime;
+    Animator animator;
 //--------------------------------------------------------------------------------
 
 
@@ -22,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
         ship = GetComponent<Rigidbody2D>();
         inputScript = GetComponent<PlayerInput>();
         movement = Vector2.zero;
+        animator = GetComponent<Animator>();
     }
 
 
@@ -36,6 +38,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else movement = Vector2.zero;
 
+        animator.SetFloat("Horizontal", movement.x);
+        if (movement.sqrMagnitude > 0)
+        animator.SetFloat("Speed", 1);
+        else
+        animator.SetFloat("Speed", 0);
         lastUpdateTime = Time.time;
     } // FIN DE UPDATE
 

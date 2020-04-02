@@ -1,38 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SoundManager : MonoBehaviour
 {
-    public static AudioClip Leons, Mathilda, Dead, Victory;
-    static AudioSource audioSrc;
+    public static SoundManager Instance = null;
+    private AudioSource[] audios = null;
 
-     void Start()
-    {
-        Leons = Resources.Load<AudioClip>("leon");
-        Mathilda = Resources.Load<AudioClip>("mathilda");
-        Victory = Resources.Load<AudioClip>("victory");
-        Dead = Resources.Load<AudioClip>("dead");
-
-        audioSrc = GetComponent<AudioSource>();
+    private void Awake() {
+        if (!Instance)
+            Instance = this;
     }
 
-    public static void PlaySound (string clip)
+    //  void Start()
+    // {
+    //     Leons = Resources.Load<AudioClip>("leon");
+    //     Mathilda = Resources.Load<AudioClip>("mathilda");
+    //     Victory = Resources.Load<AudioClip>("victory");
+    //     Dead = Resources.Load<AudioClip>("dead");
+
+    //     audioSrc = GetComponent<AudioSource>();
+    // }
+
+    private void Start() {
+        audios = GetComponents<AudioSource>();
+    }
+
+    public void Play(string audioName)
     {
-        switch (clip)
-        {
-            case "leon":
-                audioSrc.PlayOneShot(Leons); ;
-                break;
-            case "mathilda":
-                audioSrc.PlayOneShot(Mathilda); ;
-                break;
-            case "victory":
-                audioSrc.PlayOneShot(Victory); ;
-                break;
-            case "dead":
-                audioSrc.PlayOneShot(Dead); ;
-                break;
+        AudioSource audio = Array.Find(audios, a => a.clip.name == audioName);
+
+        if (!audio) {
+            Debug.LogWarning("SoundManager Can't find audio named " + audioName);
+            return;
         }
+        audio.Play();
     }
+
 }

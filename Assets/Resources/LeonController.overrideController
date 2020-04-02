@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LeonController
+  m_Controller: {fileID: 9100000, guid: b824a2b0ee3d17241ad6f50e7dd6d972, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: b5331ce5dd876114d98738b826434dc8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9619fd889b6d2f84697263297c28e907, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0482d20f29fedc940b700a0611e631ed, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ab8cfe3e8dd59204c9d3d770a2b1f114, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: cc2de206fb3ca3d45ab44d0f05c8037c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f03aa5a23dd097b40a01e4842c6c1668, type: 2}

@@ -17,10 +17,12 @@ public class PlayerCanon : MonoBehaviour, IStartable
 
     PlayerInput inputs;
     public GameObject missilePrefab;
+    public GameObject TheBigOne;
     public GameObject sfxFire;
     public Transform muzzle;
     [HideInInspector]public Transform myMissiles;
     float fireChrono;
+    public bool HasSuperPower = false;
 //--------------------------------------------------------------------------------
 
 
@@ -58,57 +60,117 @@ public class PlayerCanon : MonoBehaviour, IStartable
         }
     }
 
+    bool usingPower = false;
+
     // BOUCLE DE GAMEPLAY ------------------------------------------------------------
     void Update()
     {
-        fireChrono -= Time.deltaTime;
+        if (!usingPower) {
+            fireChrono -= Time.deltaTime;
 
-        if (canShoot)
-        {
-            bool wantToShoot = false;
-
-            switch (inputs.controlType)
+            if (canShoot)
             {
-                case PlayerInput.ControlType.KeyboardOrController:
-                    if (autoFire)
-                    {
-                        if (Input.GetButton(inputs.FireButtonName)) wantToShoot = true;
-                    }     
-                    else if (Input.GetButtonDown(inputs.FireButtonName)) wantToShoot = true;
-                break;
+                bool wantToShoot = false;
 
-
-                case PlayerInput.ControlType.Mouse:
-                    if (autoFire)
-                    {
-                        if (Input.GetMouseButton(0)) wantToShoot = true;
-                    }     
-                    else if (Input.GetMouseButtonDown(0)) wantToShoot = true;
-                break;
-            }
-
-
-            if (wantToShoot)
-            {
-                switch (shootStyle)
+                switch (inputs.controlType)
                 {
-                    case ShootType.fireRate:
-                        if (fireChrono < 0) FireMissile();
+                    case PlayerInput.ControlType.KeyboardOrController:
+                        if (autoFire)
+                        {
+                            if (Input.GetButton(inputs.FireButtonName)) wantToShoot = true;
+                        }     
+                        else if (Input.GetButtonDown(inputs.FireButtonName)) wantToShoot = true;
                     break;
 
-                    case ShootType.maxMissilesOnScreen:
-                        if (myMissiles.childCount < maxMissilesOnScreen) FireMissile();
-                    break;
 
-                    case ShootType.Both:
-                        if (fireChrono < 0 && myMissiles.childCount < maxMissilesOnScreen) FireMissile();
+                    case PlayerInput.ControlType.Mouse:
+                        if (autoFire)
+                        {
+                            if (Input.GetMouseButton(0)) wantToShoot = true;
+                        }     
+                        else if (Input.GetMouseButtonDown(0)) wantToShoot = true;
                     break;
+                }
+
+
+                if (wantToShoot)
+                {
+                    switch (shootStyle)
+                    {
+                        case ShootType.fireRate:
+                            if (fireChrono < 0) FireMissile();
+                        break;
+
+                        case ShootType.maxMissilesOnScreen:
+                            if (myMissiles.childCount < maxMissilesOnScreen) FireMissile();
+                        break;
+
+                        case ShootType.Both:
+                            if (fireChrono < 0 && myMissiles.childCount < maxMissilesOnScreen) FireMissile();
+                        break;
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.Return) && HasSuperPower) {
+                    StartCoroutine("UseSuperPower");
                 }
             }
         }
     } // FIN DE UPDATE
       //--------------------------------------------------------------------------------
 
+    void Spray()
+    {
+        if (sfxFire) Instantiate(sfxFire, muzzle.position, muzzle.rotation);
+
+        if (missilePrefab)
+        {
+            GameObject newMissile = Instantiate(missilePrefab, muzzle.position, transform.rotation, myMissiles);
+            newMissile.GetComponent<MissileScript>().shooter = this.transform;
+        }
+        else Debug.Log("Missing prefab. Nothing to shoot!");
+    }
+
+    void FireBigOne()
+    {
+        if (sfxFire) Instantiate(sfxFire, muzzle.position, muzzle.rotation);
+
+        if (TheBigOne)
+        {
+            GameObject newMissile = Instantiate(TheBigOne, muzzle.position, transform.rotation, myMissiles);
+            newMissile.GetComponent<MissileScript>().shooter = this.transform;
+        }
+        else Debug.Log("Missing prefab. Nothing to shoot!");
+    }
+
+    WaitForSeconds timer = new WaitForSeconds(0.1f);
+
+    IEnumerator UseSuperPower()
+    {
+        HasSuperPower = false;
+        BonusUI.Instance.UpdateUI(false);
+        usingPower = true;
+        if (fireRate == 8) { //mat
+            Spray();
+            yield return timer;
+            Spray();
+            yield return timer;
+            Spray();
+            yield return timer;
+            Spray();
+            yield return timer;
+            Spray();
+            yield return timer;
+            Spray();
+            yield return timer;
+            Spray();
+            usingPower = false;
+        } else { //leon
+            FireBigOne();
+            usingPower = false;
+            yield return null;
+        }
+    }
 
    
     void FireMissile()
