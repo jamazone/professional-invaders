@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 // VARIABLES ---------------------------------------------------------------------
     [HideInInspector]public bool canMove;
     public Vector2 maxSpeed;
-    Vector2 movement;
+    Vector2 movement = Vector2.zero;
     PlayerInput inputScript;
     Rigidbody2D ship;
     float lastUpdateTime;
@@ -33,44 +33,30 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (canMove)
-        {
-            movement += inputScript.Movement(Time.deltaTime);
-        }
-        else movement = Vector2.zero;
+            movement.x = Input.GetAxisRaw("Horizontal");
+        else
+            movement.x = 0;
 
         animator.SetFloat("Horizontal", movement.x);
-        if (movement.sqrMagnitude > 0)
+        if (movement.x != 0)
         animator.SetFloat("Speed", 1);
         else
         animator.SetFloat("Speed", 0);
-        lastUpdateTime = Time.time;
     } // FIN DE UPDATE
 
 
     void FixedUpdate()
     {
-        movement += inputScript.Movement(Time.time - lastUpdateTime);
         if (canMove) Move();
     }
 
  //--------------------------------------------------------------------------------
 
 
-
-
-    void ApplySpeed()
-    {
-        movement.x *= maxSpeed.x;
-        movement.y *= maxSpeed.y;
-    }
-
-
     void Move()
     {
-        ApplySpeed();
         Vector2 curPos = transform.position;
-        ship.MovePosition(curPos + movement);
-        movement = Vector2.zero;
+        ship.MovePosition(curPos + movement * maxSpeed.x * Time.fixedDeltaTime);
     }
 
 

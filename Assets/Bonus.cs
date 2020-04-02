@@ -8,6 +8,7 @@ public class Bonus : MonoBehaviour
         if (other.CompareTag("PLAYER")) {
             other.GetComponentInParent<PlayerCanon>().HasSuperPower = true;
             BonusUI.Instance.UpdateUI(true);
+            SoundManager.Instance.Play("drink");
             Destroy(this.gameObject);
         }
     }

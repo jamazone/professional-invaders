@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(ShieldGenerator))]
 public class ShieldGeneratorEditor : Editor {
 
@@ -16,7 +16,7 @@ public class ShieldGeneratorEditor : Editor {
         }
     }
 }
-
+#endif
 
 public class ShieldGenerator : MonoBehaviour
 {
